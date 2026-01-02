@@ -43,9 +43,7 @@
     --gold-light: 45 60% 75%;
     --gold-dark: 43 50% 35%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
