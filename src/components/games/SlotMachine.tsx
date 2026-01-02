@@ -61,36 +61,51 @@ export default function SlotMachine({ balance, setBalance, addToHistory }: SlotM
   };
 
   return (
-    <Card className="p-8 bg-card border-gold/30 gold-glow">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gold mb-2">Слот-машина</h2>
-        <p className="text-muted-foreground">3 одинаковых символа = джекпот!</p>
+    <Card className="p-10 bg-gradient-to-br from-card/90 via-card/70 to-card/90 backdrop-blur-xl border-2 border-gold/30 gold-glow relative overflow-hidden rounded-3xl">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+      
+      <div className="text-center mb-10 relative z-10">
+        <h2 className="text-4xl font-bold bg-gradient-to-r from-gold-light via-gold to-gold-dark bg-clip-text text-transparent mb-3">
+          🎰 Слот-машина
+        </h2>
+        <p className="text-gold/60 text-lg">3 одинаковых символа = джекпот!</p>
       </div>
 
-      <div className="flex justify-center gap-4 mb-8 bg-black/40 p-8 rounded-xl border-2 border-gold/50">
-        {reels.map((symbol, index) => (
-          <div
-            key={index}
-            className={`w-32 h-32 bg-gradient-to-br from-gold-light to-gold rounded-xl flex items-center justify-center text-6xl shadow-2xl ${
-              isSpinning ? 'animate-slot-spin' : ''
-            }`}
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
-            {symbol}
+      <div className="relative mb-10 z-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-gold/10 via-gold/5 to-gold/10 rounded-3xl blur-2xl"></div>
+        <div className="bg-gradient-to-br from-black via-black/90 to-black p-10 rounded-3xl border-4 border-gold/40 shadow-2xl relative">
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-gold to-transparent opacity-50"></div>
+          <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-gold to-transparent opacity-50"></div>
+          <div className="flex justify-center gap-6">
+            {reels.map((symbol, index) => (
+              <div key={index} className="relative">
+                <div className="absolute inset-0 bg-gold/20 rounded-2xl blur-lg"></div>
+                <div
+                  className={`w-32 h-32 bg-gradient-to-br from-gold-light via-gold to-gold-dark rounded-2xl flex items-center justify-center text-7xl shadow-2xl border-4 border-gold-light/50 relative ${
+                    isSpinning ? 'animate-slot-spin' : ''
+                  }`}
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  {symbol}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <label className="text-sm text-gold-light mb-2 block">Размер ставки</label>
-          <div className="flex gap-2">
+      <div className="space-y-6 relative z-10">
+        <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 border border-gold/10">
+          <label className="text-sm text-gold-light/90 mb-3 block uppercase tracking-wider">Размер ставки</label>
+          <div className="grid grid-cols-5 gap-2">
             {[50, 100, 250, 500, 1000].map((amount) => (
               <Button
                 key={amount}
                 onClick={() => setBet(amount)}
                 variant={bet === amount ? 'default' : 'outline'}
-                className={bet === amount ? 'bg-gold text-black' : 'border-gold/30 text-gold'}
+                className={bet === amount 
+                  ? 'bg-gradient-to-br from-gold to-gold-dark text-black hover:opacity-90 border-2 border-gold shadow-lg shadow-gold/30' 
+                  : 'border-2 border-gold/20 text-gold hover:border-gold/40 hover:bg-gold/5'}
               >
                 ${amount}
               </Button>
@@ -98,20 +113,32 @@ export default function SlotMachine({ balance, setBalance, addToHistory }: SlotM
           </div>
         </div>
 
-        <div className="bg-muted/30 p-4 rounded-lg border border-gold/20">
-          <p className="text-sm text-gold-light mb-2">Таблица выплат:</p>
-          <div className="grid grid-cols-2 gap-2 text-sm">
-            <div>7️⃣ 7️⃣ 7️⃣ → x10</div>
-            <div>💎 💎 💎 → x7</div>
-            <div>🍒 🍒 🍒 → x5</div>
-            <div>Пара → x2</div>
+        <div className="bg-gradient-to-br from-black/40 to-black/20 backdrop-blur-sm p-6 rounded-2xl border-2 border-gold/20">
+          <p className="text-base text-gold font-semibold mb-4 uppercase tracking-wider">💰 Таблица выплат</p>
+          <div className="grid grid-cols-2 gap-3 text-base">
+            <div className="flex items-center gap-2 bg-gold/5 p-3 rounded-xl border border-gold/10">
+              <span className="text-2xl">7️⃣ 7️⃣ 7️⃣</span>
+              <span className="text-gold font-bold">→ x10</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gold/5 p-3 rounded-xl border border-gold/10">
+              <span className="text-2xl">💎 💎 💎</span>
+              <span className="text-gold font-bold">→ x7</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gold/5 p-3 rounded-xl border border-gold/10">
+              <span className="text-2xl">🍒 🍒 🍒</span>
+              <span className="text-gold font-bold">→ x5</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gold/5 p-3 rounded-xl border border-gold/10">
+              <span className="text-xl">Пара</span>
+              <span className="text-gold font-bold">→ x2</span>
+            </div>
           </div>
         </div>
 
         <Button
           onClick={spin}
           disabled={isSpinning || bet > balance}
-          className="w-full bg-gradient-to-r from-gold via-gold-light to-gold text-black font-bold text-xl py-6 hover:opacity-90 transition-all gold-glow"
+          className="w-full bg-gradient-to-r from-gold via-gold-light to-gold text-black font-bold text-2xl py-8 hover:scale-105 transition-all duration-300 gold-glow shadow-2xl shadow-gold/40 rounded-2xl border-2 border-gold-light disabled:opacity-50 disabled:hover:scale-100"
           size="lg"
         >
           {isSpinning ? (

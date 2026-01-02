@@ -53,40 +53,52 @@ export default function DiceGame({ balance, setBalance, addToHistory }: DiceGame
   };
 
   return (
-    <Card className="p-8 bg-card border-gold/30 gold-glow">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gold mb-2">Игра в кости</h2>
-        <p className="text-muted-foreground">Сумма ≥ 7 — выигрыш!</p>
+    <Card className="p-10 bg-gradient-to-br from-card/90 via-card/70 to-card/90 backdrop-blur-xl border-2 border-gold/30 gold-glow relative overflow-hidden rounded-3xl">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+      
+      <div className="text-center mb-10 relative z-10">
+        <h2 className="text-4xl font-bold bg-gradient-to-r from-gold-light via-gold to-gold-dark bg-clip-text text-transparent mb-3">
+          🎲 Игра в кости
+        </h2>
+        <p className="text-gold/60 text-lg">Сумма ≥ 7 — выигрыш!</p>
       </div>
 
-      <div className="flex justify-center gap-8 mb-8">
-        <div
-          className={`w-24 h-24 bg-gradient-to-br from-gold to-gold-dark rounded-xl flex items-center justify-center text-5xl font-bold text-black shadow-2xl ${
-            isRolling ? 'animate-bounce-dice' : ''
-          }`}
-        >
-          {dice1}
+      <div className="flex justify-center gap-8 mb-10 relative z-10">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gold/20 rounded-2xl blur-xl"></div>
+          <div
+            className={`w-28 h-28 bg-gradient-to-br from-gold via-gold-light to-gold-dark rounded-2xl flex items-center justify-center text-6xl font-bold text-black shadow-2xl border-4 border-gold/50 relative ${
+              isRolling ? 'animate-bounce-dice' : ''
+            }`}
+          >
+            {dice1}
+          </div>
         </div>
-        <div
-          className={`w-24 h-24 bg-gradient-to-br from-gold to-gold-dark rounded-xl flex items-center justify-center text-5xl font-bold text-black shadow-2xl ${
-            isRolling ? 'animate-bounce-dice' : ''
-          }`}
-          style={{ animationDelay: '0.1s' }}
-        >
-          {dice2}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gold/20 rounded-2xl blur-xl"></div>
+          <div
+            className={`w-28 h-28 bg-gradient-to-br from-gold via-gold-light to-gold-dark rounded-2xl flex items-center justify-center text-6xl font-bold text-black shadow-2xl border-4 border-gold/50 relative ${
+              isRolling ? 'animate-bounce-dice' : ''
+            }`}
+            style={{ animationDelay: '0.1s' }}
+          >
+            {dice2}
+          </div>
         </div>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <label className="text-sm text-gold-light mb-2 block">Размер ставки</label>
-          <div className="flex gap-2">
+      <div className="space-y-6 relative z-10">
+        <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 border border-gold/10">
+          <label className="text-sm text-gold-light/90 mb-3 block uppercase tracking-wider">Размер ставки</label>
+          <div className="grid grid-cols-5 gap-2">
             {[50, 100, 250, 500, 1000].map((amount) => (
               <Button
                 key={amount}
                 onClick={() => setBet(amount)}
                 variant={bet === amount ? 'default' : 'outline'}
-                className={bet === amount ? 'bg-gold text-black' : 'border-gold/30 text-gold'}
+                className={bet === amount 
+                  ? 'bg-gradient-to-br from-gold to-gold-dark text-black hover:opacity-90 border-2 border-gold shadow-lg shadow-gold/30' 
+                  : 'border-2 border-gold/20 text-gold hover:border-gold/40 hover:bg-gold/5'}
               >
                 ${amount}
               </Button>
@@ -94,15 +106,17 @@ export default function DiceGame({ balance, setBalance, addToHistory }: DiceGame
           </div>
         </div>
 
-        <div>
-          <label className="text-sm text-gold-light mb-2 block">Множитель</label>
-          <div className="flex gap-2">
+        <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 border border-gold/10">
+          <label className="text-sm text-gold-light/90 mb-3 block uppercase tracking-wider">Множитель</label>
+          <div className="grid grid-cols-4 gap-2">
             {[1.5, 2, 3, 5].map((mult) => (
               <Button
                 key={mult}
                 onClick={() => setMultiplier(mult)}
                 variant={multiplier === mult ? 'default' : 'outline'}
-                className={multiplier === mult ? 'bg-gold text-black' : 'border-gold/30 text-gold'}
+                className={multiplier === mult 
+                  ? 'bg-gradient-to-br from-gold to-gold-dark text-black hover:opacity-90 border-2 border-gold shadow-lg shadow-gold/30' 
+                  : 'border-2 border-gold/20 text-gold hover:border-gold/40 hover:bg-gold/5'}
               >
                 x{mult}
               </Button>
@@ -113,17 +127,17 @@ export default function DiceGame({ balance, setBalance, addToHistory }: DiceGame
         <Button
           onClick={rollDice}
           disabled={isRolling || bet > balance}
-          className="w-full bg-gradient-to-r from-gold via-gold-light to-gold text-black font-bold text-xl py-6 hover:opacity-90 transition-all gold-glow"
+          className="w-full bg-gradient-to-r from-gold via-gold-light to-gold text-black font-bold text-2xl py-8 hover:scale-105 transition-all duration-300 gold-glow shadow-2xl shadow-gold/40 rounded-2xl border-2 border-gold-light disabled:opacity-50 disabled:hover:scale-100"
           size="lg"
         >
           {isRolling ? (
             <>
-              <Icon name="Loader2" className="mr-2 animate-spin" size={24} />
+              <Icon name="Loader2" className="mr-3 animate-spin" size={28} />
               Бросаем...
             </>
           ) : (
             <>
-              <Icon name="Dices" className="mr-2" size={24} />
+              <Icon name="Dices" className="mr-3" size={28} />
               Бросить кости (${bet})
             </>
           )}
